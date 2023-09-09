@@ -382,6 +382,13 @@ export class VRMManager {
         const cache: TransformNodeCache = {};
         for (let index = this.transformNodesFrom; index < this.scene.transformNodes.length; index++) {
             const node = this.scene.transformNodes[index];
+            if(node._internalMetadata) {
+                Object.keys(node._internalMetadata).forEach(key => {
+                    if(!node.metadata[key]) {
+                        node.metadata[key] = node._internalMetadata[key];
+                    }
+                });
+            }
             // ポインタが登録されていないものは省略
             if (!node || !node.metadata || !node.metadata.gltf || !node.metadata.gltf.pointers || node.metadata.gltf.pointers.length === 0) {
                 continue;
