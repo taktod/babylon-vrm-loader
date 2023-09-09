@@ -411,6 +411,13 @@ export class VRMManager {
         const cache: MeshCache = {};
         for (let index = this.meshesFrom; index < this.scene.meshes.length; index++) {
             const mesh = this.scene.meshes[index];
+            if(mesh._internalMetadata) {
+                Object.keys(mesh._internalMetadata).forEach(key => {
+                    if(!mesh.metadata[key]) {
+                        mesh.metadata[key] = mesh._internalMetadata[key];
+                    }
+                });
+            }
             if (mesh.id === '__root__') {
                 this._rootMesh = mesh as Mesh;
                 continue;
